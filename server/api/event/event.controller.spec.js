@@ -40,7 +40,7 @@ describe('GET /api/events', function() {
   it('should filter out events that ended', function(done) {
     var yesterday = (new Date()).addDays(-1);
     var url = '/api/events?end=>' + yesterday;
-    console.log('usl = ' + url);
+    //console.log('url = ' + url);
 
     request(app)
       .get(url)
