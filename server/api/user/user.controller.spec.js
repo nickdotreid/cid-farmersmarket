@@ -9,9 +9,9 @@ var User = require('./user.model');
 
 describe('PUT /api/users/:id/contactInfo', function() {
 
-  var cookie = null;
+  var token = null;
 
-  before(function(done) {
+  beforeEach(function(done) {
     var userParams = {
       provider: 'local',
       name: 'Larry',
@@ -23,11 +23,11 @@ describe('PUT /api/users/:id/contactInfo', function() {
         if (err) console.log(err);
         //console.log(user);
         request(app)
-        .post('/login')
+        .post('/auth/local')
         .send({ email: userParams.email, provider:'local', password: userParams.password })
         .end(function(err,res) {
-          //res.should.have.status(200);
-          cookie = res.headers['set-cookie'];
+          token = res.body.token; // defined in closure
+          //console.log(token);
           done();
         });
       });
@@ -40,7 +40,6 @@ describe('PUT /api/users/:id/contactInfo', function() {
       should.exist(user);
       var url = '/api/users/:id/contactInfo'.replace(':id', user._id);
 
-      console.log(cookie);
       // (request.agent()) // will not require authentication
       request(app)
       .put(url, {
@@ -48,40 +47,29 @@ describe('PUT /api/users/:id/contactInfo', function() {
         newPassword: 'chickens',
         retypeNewPassword: 'chickens'
       })
-      .set('cookie', cookie)
+      .set('authorization', 'Bearer ' + token)
       .expect(200)
-      .end(function(err, res) {
-        if (err) return done(err);
-/*        for (var key in res) {
-          console.log(key);
-        }
-*/
-        console.log(res.error);
-        //res.status.should.be.exactly(200);
-        done();
-      });
+      .end(done);
     });
   });
-/*
-  it('should return 400 if new password fields do not match', function(done) {
+
+  it('should return error if new password fields do not match', function(done) {
     User.findOne({email: 'larry@email.com'}, function(err, user) {
       if (err) console.log(err);
       should.exist(user);
-      var url = 'localhost:9000/api/:id/contactInfo'.replace(':id', user._id);
+      var url = '/api/users/:id/contactInfo'.replace(':id', user._id);
 
-      (request.agent()) // will not require authentication
+      // (request.agent()) // will not require authentication
+      request(app)
       .put(url, {
         oldPassword: 'password',
         newPassword: 'chickens',
         retypeNewPassword: 'roosters'
       })
-      //.expect(400)
-      .end(function(err, res) {
-        res.status.should.be.exactly(400);
-        if (err) return done(err);
-        done();
-      });
+      .set('authorization', 'Bearer ' + token)
+      .expect(200)
+      .end(done);
     });
   });
-*/
+
 });
