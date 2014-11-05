@@ -1,16 +1,24 @@
 'use strict';
 
-var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+require('../../../common/date');
 
-var time = require('../../components/time');
-var _ = require('lodash');
+var mongoose = require('mongoose'),
+    Schema = mongoose.Schema,
+    _ = require('lodash');
+
 
 var EventSchema = new Schema({
   name: String,
   about: String,
+  sponsor: String,
   start: Date,  // includes time
   end: Date,    // includes time
+
+  // Do not enforce volunteers <= volunteerSlots.
+  // Allow for people to volunteer as alternates.
+  volunteerSlots: Number,
+  volunteers: Number,
+
   active: Boolean
 });
 
@@ -27,6 +35,9 @@ module.exports.seedEvents = function(start, duration, n, incDays, fn) {
     provider: 'local',
     name: 'Test Event 1',
     about: 'About Test Event 1',
+    sponsor: 'Jackson Young Professionals',
+    volunteerSlots: 5,
+    volunteers: 0,
     start: start,
     end: end,
     active: true
