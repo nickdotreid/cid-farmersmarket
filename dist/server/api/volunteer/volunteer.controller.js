@@ -22,7 +22,7 @@ exports.show = function(req, res) {
 
 // Creates a new volunteer in the DB.
 exports.create = function(req, res) {
-  Volunteer.create(req.body, function(err, volunteer) {
+  Volunteer.findOneAndUpdate({email: req.body.email}, req.body, { upsert: true }, function(err, volunteer) {
     if(err) { return handleError(res, err); }
     return res.json(201, volunteer);
   });

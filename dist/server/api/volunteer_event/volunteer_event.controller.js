@@ -5,7 +5,8 @@ var VolunteerEvent = require('./volunteer_event.model');
 
 // Get list of volunteer_events
 exports.index = function(req, res) {
-  VolunteerEvent.find(function (err, volunteer_events) {
+  console.log(req.query);
+  VolunteerEvent.find(req.query, function (err, volunteer_events) {
     if(err) { return handleError(res, err); }
     return res.json(200, volunteer_events);
   });
@@ -20,11 +21,15 @@ exports.show = function(req, res) {
   });
 };
 
-// Creates a new volunteer_event in the DB.
+// Creates a new volunteer_event in the DB if one does not already exist.
 exports.create = function(req, res) {
-  VolunteerEvent.create(req.body, function(err, volunteer_event) {
+  VolunteerEvent.findOne(req.body, function(err, volunteer_event) {
     if(err) { return handleError(res, err); }
-    return res.json(201, volunteer_event);
+    if (volunteer_event) { return res.json(201, volunteer_event); }
+    VolunteerEvent.create(req.body, function(err, volunteer_event) {
+      if(err) { return handleError(res, err); }
+      return res.json(201, volunteer_event);
+    });
   });
 };
 
