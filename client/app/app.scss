@@ -104,14 +104,14 @@ $navbar-default-link-active-bg:            darken($navbar-default-bg, $darkenAmo
   width: 230px;
   background-image:url("/assets/images/farmersMarketLogoSprite.png");
   background-repeat: no-repeat;
-  background-position: -510px -45px;
+  background-position: center -539px;
 }
 
 .logo-large{
   @extend .logo;
   height:380px;
-  width:445px;
-  background-position: -33px -35px;
+  width:auto;
+  background-position: center -35px;
   margin:$spaceSize auto;
   clear:both;
 }
