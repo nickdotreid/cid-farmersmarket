@@ -145,6 +145,17 @@ $navbar-default-link-active-bg:            darken($navbar-default-bg, $darkenAmo
   }
 }
 
+.jumbotron{
+  margin-bottom:0px;
+  background-color: transparent;
+  color:$brown;
+  font-weight:600;
+  font-size:2em;
+  p{
+    font-weight:600;
+  }
+}
+
 .browsehappy {
     margin: 0.2em 0;
     background: #ccc;
