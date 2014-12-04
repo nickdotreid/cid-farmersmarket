@@ -106,7 +106,7 @@ $navbar-default-link-active-bg:            darken($navbar-default-bg, $darkenAmo
   background-repeat: no-repeat;
   background-position: center -539px;
 }
-
+/*
 @media (max-width: 460px) {
   .logo-large {
     -webkit-background-size: cover;
@@ -121,7 +121,7 @@ $navbar-default-link-active-bg:            darken($navbar-default-bg, $darkenAmo
     background-position: -75px -45px !important;
   }
 }
-
+*/
 .logo-large{
   @extend .logo;
   height:380px;
